@@ -26,4 +26,3 @@ edition = "2021"
 
 [dependencies]
 handlebars = "4.3.7"
-clap = { version="4.0.30", features=["derive"] }
