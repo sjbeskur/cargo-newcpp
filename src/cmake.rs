@@ -1,13 +1,14 @@
 use handlebars::Handlebars;
 use std::collections::BTreeMap;
 
-pub fn get_cmake(project_name: &str) -> String{
+pub fn get_cmake(project_name: &str) -> Result<String, Box<dyn std::error::Error>>{
     let mut handlebars = Handlebars::new();
-    handlebars.register_template_string("cmake_template", DEFAULT_CMAKE);
+    handlebars.register_template_string("cmake_template", DEFAULT_CMAKE)?;
 
     let mut data = BTreeMap::new();
     data.insert("project_name".to_string(), project_name.to_string());
-    handlebars.render("cmake_template", &data).unwrap()
+    let rslt = handlebars.render("cmake_template", &data)?;
+    return Ok(rslt);
 }
 
 
