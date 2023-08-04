@@ -16,6 +16,7 @@ cargo newcpp <your_project_name>
 ```
 
 This will output to the following default project scaffolding.
+
 ![scaffolding](assets/project-files.png)
 
 ## Build the project
