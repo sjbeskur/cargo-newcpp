@@ -8,15 +8,19 @@ Ensure that you have a fairly recent version of rust/cargo installed. On Ubuntu 
 cargo install cargo-newcpp
 ```
 
-## Usage
+## Create a new project
 
+Create a new CPP project with the following command.   
 ```console,ignore
-cargo newcpp <project_name>
+cargo newcpp <your_project_name>
 ```
 
+This will output to the following default project scaffolding.
 ![scaffolding](assets/project-files.png)
 
+## Build the project
+Once you've create the project, you can use the following example to build the project.
 ```console,ignore
-cd <project_name> 
-cmake -B build -S . && cd build && make
+cd <your_project_name> 
+cargo buildcpp
 ```
