@@ -19,7 +19,7 @@ license = "Apache-2.0 OR MIT"
 name = "cargo-newcpp"
 readme = "README.md"
 repository = "https://github.com/sjbeskur/cargo-newcpp"
-version = "0.2.20"
+version = "0.3.20"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

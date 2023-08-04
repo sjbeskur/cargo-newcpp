@@ -13,7 +13,7 @@ dependencies = [
 
 [[package]]
 name = "cargo-newcpp"
-version = "0.2.20"
+version = "0.3.20"
 dependencies = [
  "handlebars",
 ]
