@@ -5,11 +5,9 @@ r#"
 
 #include <iostream>
 
-int foo_man_chew() {
-    std::cout << "Hello, world!" << std::endl;
+void dummy_hello(const std::string& message) {
+    std::cout << "Hello " << message << std::endl;
 }
 
 #endif // DUMMY_H
-
 "#;
-
