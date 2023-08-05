@@ -16,7 +16,7 @@ type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
         let _ = make_project_dir(&self.project_name);
         make_project_dir(&format!("{}{}", self.project_name, "/src"))?;
         make_project_dir(&format!("{}{}", self.project_name, "/include"))?;
-        make_project_dir(&format!("{}{}", self.project_name, "/test"))?;
+        make_project_dir(&format!("{}{}", self.project_name, "/tests"))?;
         make_project_dir(&format!("{}{}", self.project_name, "/cmake"))?;
         make_project_dir(&format!("{}{}", self.project_name, "/docs"))?;
 

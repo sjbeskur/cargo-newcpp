@@ -24,6 +24,10 @@ pub fn make_defaults(project_dir: &str) -> Result<(),Box<dyn Error>> {
     
     let cmake_template = cmake::get_cmake(project_dir)?;
     make_default_files(project_dir, FileTypes::Cmake(&cmake_template) )?;
+
+    make_default_files(project_dir, FileTypes::UnitTestExample(cpp::EXAMPLE_TEST) )?;
+    make_default_files(project_dir, FileTypes::CmakeTest(cmake::DEFAULT_GTEST_CMAKE) )?;
+
     Ok(())
 }
 
@@ -44,6 +48,14 @@ fn make_default_files(project_dir: &str, filetype: FileTypes  ) -> std::io::Resu
             file.write_all(value.as_bytes())?;
         
         }
+        FileTypes::CmakeTest(value) => {
+            let mut file = File::create(project_dir.to_owned() + "/tests/CMakeLists.txt")?;
+            file.write_all(value.as_bytes())?;        
+        }
+        FileTypes::UnitTestExample(value) => {
+            let mut file = File::create(project_dir.to_owned() + "/tests/example_test.cpp")?;
+            file.write_all(value.as_bytes())?;        
+        }
         FileTypes::GitIgnore(value) => {
             let mut file = File::create(project_dir.to_owned() + "/.gitignore")?;
             file.write_all(value.as_bytes())?;
@@ -59,7 +71,9 @@ pub enum FileTypes<'a>{
     Main(&'a str),
     Header(&'a str),
     Cmake(&'a str),
+    CmakeTest(&'a str),
     GitIgnore(&'a str),
+    UnitTestExample(&'a str),
 //    ReadMe(&'a str),
 }
 
