@@ -7,6 +7,7 @@ mod cpp;
 mod hpp;
 mod gitignore;
 mod cmake;
+pub mod command_helper;
 
 pub use cpp_scafolding::*;
 pub use std::error::Error;

@@ -1,6 +1,7 @@
 use std::path::Path;
-use std::process::{Command, Stdio};
-use std::io::{BufRead, BufReader};
+use std::process::Command;
+
+use cargo_newcpp::command_helper::dump_command;
 
 fn main() {
 
@@ -13,13 +14,6 @@ fn main() {
 }
 
 // happy path 
-// let output = Command::new("cmake")
-//     .arg("-B")
-//     .arg("target/")
-//     .arg("-S")
-//     .arg(".")
-//     .output()
-//     .expect("error: could not find `cmake` in path" );
 fn run_cmake(target_dir: &str){
     let mut cmd = Command::new("cmake");
     cmd.arg("-B")
@@ -28,8 +22,6 @@ fn run_cmake(target_dir: &str){
         .arg(".");
 
     dump_command(&mut cmd);
-
-
 }
 
 fn run_make(target_dir: &str){
@@ -39,26 +31,3 @@ fn run_make(target_dir: &str){
     dump_command(&mut cmd);
 }
 
-fn dump_command(cmd: &mut Command){
-    cmd.stdout(Stdio::piped());  
-    let mut child = cmd.spawn().unwrap();  
-    let stdout = child.stdout.take().expect("Failed to get stdout");
-
-    // Create a buffer reader to read the output line by line
-    let reader = BufReader::new(stdout);
-
-    // Read and print the output in real-time
-    for line in reader.lines() {
-        match line {
-            Ok(line) => println!("{}", line),
-            Err(e) => eprintln!("Error reading line: {}", e),
-        }
-    }    
-
-    // Wait for the command to finish and check if it was successful
-    let status = child.wait().unwrap();
-    if !status.success() {
-        println!("Command failed with exit code: {:?}", status.code());
-    }
-
-}
