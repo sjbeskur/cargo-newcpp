@@ -28,6 +28,11 @@ edition = "2021"
 handlebars = "4.3.7"
 
 [[bin]]
+name = "cargo-newcpp"
+path = "src/bin/new/main.rs"
+required-features = ["new"]
+
+[[bin]]
 name = "cargo-buildcpp"
 path = "src/bin/build/main.rs"
 required-features = ["build"]
@@ -40,9 +45,11 @@ required-features = ["gtest"]
 
 [features]
 default = [
+    "new",
     "build",
     "gtest",
 ]
+new = []
 build = []
 gtest = []
 #cli = ["clap"]
