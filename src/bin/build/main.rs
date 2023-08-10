@@ -1,3 +1,4 @@
+use std::env::args;
 use std::path::Path;
 use std::process::Command;
 
@@ -26,6 +27,7 @@ fn run_cmake(target_dir: &str){
 
 fn run_make(target_dir: &str){
     let mut cmd = Command::new("make");
+    cmd.arg("-j`nproc`");
     cmd.current_dir(target_dir);
 
     dump_command(&mut cmd);
