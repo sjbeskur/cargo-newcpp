@@ -14,7 +14,7 @@ pub fn get_readme(project_name: &str) -> Result<String, Box<dyn std::error::Erro
 
 pub const DEFAULT_README: &str = r#"
 
-# {{project_name}} )
+# {{project_name}} 
 
 ## TL;DR
 
