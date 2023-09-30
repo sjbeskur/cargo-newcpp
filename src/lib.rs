@@ -7,6 +7,7 @@ mod cpp;
 mod hpp;
 mod gitignore;
 mod cmake;
+mod readme;
 pub mod command_helper;
 
 pub use cpp_scafolding::*;
@@ -25,6 +26,9 @@ pub fn make_defaults(project_dir: &str) -> Result<(),Box<dyn Error>> {
     
     let cmake_template = cmake::get_cmake(project_dir)?;
     make_default_files(project_dir, FileTypes::Cmake(&cmake_template) )?;
+
+    let readme_template = readme::get_readme(project_dir)?;
+    make_default_files(project_dir, FileTypes::ReadMe(&readme_template) )?;
 
     make_default_files(project_dir, FileTypes::UnitTestExample(cpp::EXAMPLE_TEST) )?;
     make_default_files(project_dir, FileTypes::CmakeTest(cmake::DEFAULT_GTEST_CMAKE) )?;
@@ -59,8 +63,11 @@ fn make_default_files(project_dir: &str, filetype: FileTypes  ) -> std::io::Resu
         }
         FileTypes::GitIgnore(value) => {
             let mut file = File::create(project_dir.to_owned() + "/.gitignore")?;
-            file.write_all(value.as_bytes())?;
-        
+            file.write_all(value.as_bytes())?;        
+        }
+        FileTypes::ReadMe(value) => {
+            let mut file = File::create(project_dir.to_owned() + "/README.md")?;
+            file.write_all(value.as_bytes())?;        
         }
         
     }
@@ -75,6 +82,6 @@ pub enum FileTypes<'a>{
     CmakeTest(&'a str),
     GitIgnore(&'a str),
     UnitTestExample(&'a str),
-//    ReadMe(&'a str),
+    ReadMe(&'a str),
 }
 

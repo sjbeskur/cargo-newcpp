@@ -20,6 +20,7 @@ project( {{project_name}} )
 
 # Set the C++ standard to use (change to your preferred version)
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
 # Add your source files here (replace "main.cpp" with your actual source files)
 set(SOURCES
