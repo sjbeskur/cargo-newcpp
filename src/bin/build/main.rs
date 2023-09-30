@@ -10,7 +10,7 @@ fn main() {
         println!("error: could not find `CMakeLists.txt` in `{}/{}` or any parent directory",curr_dir, "CMakeLists.txt");        
     }
     run_cmake("target/");
-    run_make("target/");
+    run_ninja("target/");
 }
 
 // happy path 
@@ -19,10 +19,19 @@ fn run_cmake(target_dir: &str){
     cmd.arg("-B")
         .arg(target_dir)
         .arg("-S")
-        .arg(".");
+        .arg(".")
+        .arg("-GNinja");
 
     dump_command(&mut cmd);
 }
+
+fn run_ninja(target_dir: &str){
+    let mut cmd = Command::new("ninja");
+    cmd.current_dir(target_dir);
+
+    dump_command(&mut cmd);
+}
+
 
 fn run_make(target_dir: &str){
     let mut cmd = Command::new("make");
