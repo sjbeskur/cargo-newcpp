@@ -4,6 +4,13 @@ This tool extends [Cargo](http://doc.crates.io/) to allow for the creation of ne
 
 Ensure that you have a fairly recent version of rust/cargo installed. On Ubuntu you might also want to install `cmake` and `gcc` or `g++` so that you can actually build project.
 
+## Recommended prereqs 
+If you'd like to kick the tires on the build feature (cargo buildcpp) you will want the following installed
+```console,ignore
+sudo apt install gcc, g++, ninja-build, build-essential, cmake
+```
+
+
 ```console,ignore
 cargo install cargo-newcpp
 ```

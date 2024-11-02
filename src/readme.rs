@@ -8,7 +8,7 @@ pub fn get_readme(project_name: &str) -> Result<String, Box<dyn std::error::Erro
     let mut data = BTreeMap::new();
     data.insert("project_name".to_string(), project_name.to_string());
     let rslt = handlebars.render("readme_template", &data)?;
-    return Ok(rslt);
+    Ok(rslt)
 }
 
 

@@ -7,7 +7,7 @@ fn main() {
 
     if !Path::new("./CMakeLists.txt").exists(){
         let curr_dir = std::env::current_dir().unwrap().to_string_lossy().to_string();
-        println!("error: could not find `CMakeLists.txt` in `{}/{}` or any parent directory",curr_dir, "CMakeLists.txt");        
+        println!("error: could not find `CMakeLists.txt` in `{}/CMakeLists.txt` or any parent directory",curr_dir);        
     }
     run_cmake("target/");
     run_ninja("target/");
@@ -32,7 +32,7 @@ fn run_ninja(target_dir: &str){
     dump_command(&mut cmd);
 }
 
-
+#[allow(dead_code)]
 fn run_make(target_dir: &str){
     let mut cmd = Command::new("make");
     cmd.arg("-j`nproc`");
