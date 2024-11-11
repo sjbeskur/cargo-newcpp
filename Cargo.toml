@@ -15,6 +15,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+clap = { version = "4.4", features = ["derive"] }
 handlebars = "6.2.0"
 
 [[bin]]
@@ -25,6 +26,11 @@ required-features = ["new"]
 [[bin]]
 name = "cargo-buildcpp"
 path = "src/bin/build/main.rs"
+required-features = ["build"]
+
+[[bin]]
+name = "cargo-cleancpp"
+path = "src/bin/clean/main.rs"
 required-features = ["build"]
 
 [[bin]]
