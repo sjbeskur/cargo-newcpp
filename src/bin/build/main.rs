@@ -6,9 +6,9 @@ mod cli;
 
 fn main() {
 
-    let args = cli::parse_args();
+    let is_release = cli::parse_args();
 
-    let build_type =  match args.release{
+    let build_type =  match is_release{
         true => "Release",
         _ => "Debug",
     };
