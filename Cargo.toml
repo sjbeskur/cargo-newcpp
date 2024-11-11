@@ -9,7 +9,7 @@ license = "Apache-2.0 OR MIT"
 name = "cargo-newcpp"
 readme = "README.md"
 repository = "https://github.com/sjbeskur/cargo-newcpp"
-version = "0.5.41"
+version = "0.5.42"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -31,7 +31,7 @@ required-features = ["build"]
 [[bin]]
 name = "cargo-cleancpp"
 path = "src/bin/clean/main.rs"
-required-features = ["build"]
+required-features = ["clean"]
 
 [[bin]]
 name = "cargo-gtest"
@@ -40,8 +40,9 @@ required-features = ["gtest"]
 
 
 [features]
-default = ["new", "build", "gtest"]
+default = ["new", "build", "gtest", "clean"]
 new = []
 build = []
 gtest = []
+clean = []
 #cli = ["clap"]
