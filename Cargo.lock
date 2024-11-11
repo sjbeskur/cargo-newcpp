@@ -62,7 +62,7 @@ dependencies = [
 
 [[package]]
 name = "cargo-newcpp"
-version = "0.5.44"
+version = "0.5.45"
 dependencies = [
  "clap",
  "handlebars",
