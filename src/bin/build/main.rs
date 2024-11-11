@@ -2,12 +2,11 @@ use std::path::Path;
 use std::process::Command;
 
 use cargo_newcpp::command_helper::dump_command;
-use clap::Parser;
 mod cli;
 
 fn main() {
 
-    let args = cli::Cli::parse();
+    let args = cli::parse_args();
 
     let build_type =  match args.release{
         true => "Release",

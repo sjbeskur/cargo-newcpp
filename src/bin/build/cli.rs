@@ -22,7 +22,6 @@ pub struct Cli {
 
 }
 
-#[allow(dead_code)]
 // total hack way to do this
 pub fn parse_args() -> Cli {
     // Parse CLI arguments.
