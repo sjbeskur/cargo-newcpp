@@ -1,5 +1,3 @@
-pub const DEFAULT_HEADER: &str = 
-r#"
 #ifndef DUMMY_H
 #define DUMMY_H
 
@@ -20,4 +18,3 @@ int subtract(int i, int j)
 }
 
 #endif // DUMMY_H
-"#;

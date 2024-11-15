@@ -4,7 +4,6 @@ use std::io::prelude::*;
 
 mod cpp_scafolding;
 mod cpp;
-mod hpp;
 mod gitignore;
 mod cmake;
 mod readme;
@@ -20,8 +19,8 @@ pub fn make_project_dir(project_dir: &str) -> std::io::Result<()> {
 
 pub fn make_defaults(project_dir: &str) -> Result<(),Box<dyn Error>> {
 
-    make_default_files(project_dir, FileTypes::Main(cpp::DEFAULT_MAIN) )?;
-    make_default_files(project_dir, FileTypes::Header(hpp::DEFAULT_HEADER) )?;
+    make_default_files(project_dir, FileTypes::Main )?;
+    make_default_files(project_dir, FileTypes::Header )?;
     make_default_files(project_dir, FileTypes::GitIgnore(gitignore::DEFAULT_GITIGNORE) )?;
     
     let cmake_template = cmake::get_cmake(project_dir)?;
@@ -38,14 +37,16 @@ pub fn make_defaults(project_dir: &str) -> Result<(),Box<dyn Error>> {
 
 fn make_default_files(project_dir: &str, filetype: FileTypes  ) -> std::io::Result<()> {
     match filetype {
-        FileTypes::Main(value) => {
+        FileTypes::Main => {            
             let mut file = File::create(project_dir.to_owned() + "/src/main.cpp")?;
-            file.write_all(value.as_bytes())?;
+            let template = include_str!("../templates/src/main.cpp.in");
+            file.write_all(template.as_bytes())?;
         
         }
-        FileTypes::Header(value) => {
+        FileTypes::Header => {
             let mut file = File::create(project_dir.to_owned() + "/include/dummy.hpp")?;
-            file.write_all(value.as_bytes())?;
+            let template = include_str!("../templates/include/dummy.hpp.in");
+            file.write_all(template.as_bytes())?;
         
         }
         FileTypes::Cmake(value) => {
@@ -78,8 +79,8 @@ fn make_default_files(project_dir: &str, filetype: FileTypes  ) -> std::io::Resu
 }
 
 pub enum FileTypes<'a>{
-    Main(&'a str),
-    Header(&'a str),
+    Main,
+    Header,
     Cmake(&'a str),
     CmakeTest,
     GitIgnore(&'a str),

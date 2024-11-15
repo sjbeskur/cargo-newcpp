@@ -1,0 +1,19 @@
+#include <iostream>
+#include <string>
+#include "dummy.hpp"
+
+int main(int argc, char **argv) {
+
+    dummy_hello("C++");
+    std::cout << "You have successfully been created using cargo-newcpp" << std::endl;
+
+    std::cout << "Your vesion of C++ is: ";
+    if (__cplusplus == 202101L) std::cout << "C++23";
+    else if (__cplusplus == 202002L) std::cout << "C++20";
+    else if (__cplusplus == 201703L) std::cout << "C++17";
+    else if (__cplusplus == 201402L) std::cout << "C++14";
+    else if (__cplusplus == 201103L) std::cout << "C++11";
+    else if (__cplusplus == 199711L) std::cout << "C++98";
+    else std::cout << "pre-standard C++." << __cplusplus;
+    std::cout << "\n";    
+}
