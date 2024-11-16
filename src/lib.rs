@@ -21,11 +21,11 @@ pub fn make_defaults(project_dir: &str) -> Result<(),Box<dyn Error>> {
     make_default_files(project_dir, FileTypes::Header )?;
     make_default_files(project_dir, FileTypes::GitIgnore)?;
     
-    let exe_template = include_str!("../templates/CMakeLists_exe.in");
-    let cmake_template = cmake::get_cmake(project_dir, &exe_template)?;
+    let exe_template = include_str!("../templates/fs/CMakeLists_exe.in");
+    let cmake_template = cmake::get_cmake(project_dir, exe_template)?;
     make_default_files(project_dir, FileTypes::Cmake(&cmake_template) )?;
 
-    let template_readme = include_str!("../templates/README.md.in");
+    let template_readme = include_str!("../templates/fs/README.md.in");
     let readme_template = readme::get_readme(project_dir, template_readme)?;
     make_default_files(project_dir, FileTypes::ReadMe(&readme_template) )?;
 
@@ -39,13 +39,13 @@ fn make_default_files(project_dir: &str, filetype: FileTypes  ) -> std::io::Resu
     match filetype {
         FileTypes::Main => {            
             let mut file = File::create(project_dir.to_owned() + "/src/main.cpp")?;
-            let template = include_str!("../templates/src/main.cpp.in");
+            let template = include_str!("../templates/fs/src/main.cpp.in");
             file.write_all(template.as_bytes())?;
         
         }
         FileTypes::Header => {
             let mut file = File::create(project_dir.to_owned() + "/include/dummy.hpp")?;
-            let template = include_str!("../templates/include/dummy.hpp.in");
+            let template = include_str!("../templates/fs/include/dummy.hpp.in");
             file.write_all(template.as_bytes())?;
         
         }
@@ -56,19 +56,19 @@ fn make_default_files(project_dir: &str, filetype: FileTypes  ) -> std::io::Resu
         }
         FileTypes::CmakeTest => {
             let mut file = File::create(project_dir.to_owned() + "/tests/CMakeLists.txt")?;
-            let template = include_str!("../templates/test/CMakeGTest.make.in");
+            let template = include_str!("../templates/fs/test/CMakeGTest.make.in");
             file.write_all(template.as_bytes())?;        
             //file.write_all(value.as_bytes())?;        
         }
         
         FileTypes::UnitTestExample => {
             let mut file = File::create(project_dir.to_owned() + "/tests/example_test.cpp")?;
-            let template = include_str!("../templates/test/example_test.cpp.in");
+            let template = include_str!("../templates/fs/test/example_test.cpp.in");
             file.write_all(template.as_bytes())?;        
         }
         FileTypes::GitIgnore => {
             let mut file = File::create(project_dir.to_owned() + "/.gitignore")?;
-            let template = include_str!("../templates/gitignore.in");
+            let template = include_str!("../templates/fs/gitignore.in");
             file.write_all(template.as_bytes())?;        
         }
         FileTypes::ReadMe(value) => {
