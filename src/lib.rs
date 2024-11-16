@@ -3,7 +3,6 @@ use std::fs::File;
 use std::io::prelude::*;
 
 mod cpp_scafolding;
-mod cpp;
 mod gitignore;
 mod cmake;
 mod readme;
@@ -21,15 +20,17 @@ pub fn make_defaults(project_dir: &str) -> Result<(),Box<dyn Error>> {
 
     make_default_files(project_dir, FileTypes::Main )?;
     make_default_files(project_dir, FileTypes::Header )?;
-    make_default_files(project_dir, FileTypes::GitIgnore(gitignore::DEFAULT_GITIGNORE) )?;
+    make_default_files(project_dir, FileTypes::GitIgnore)?;
     
-    let cmake_template = cmake::get_cmake(project_dir)?;
+    let exe_template = include_str!("../templates/CMakeLists_exe.in");
+    let cmake_template = cmake::get_cmake(project_dir, &exe_template)?;
     make_default_files(project_dir, FileTypes::Cmake(&cmake_template) )?;
 
-    let readme_template = readme::get_readme(project_dir)?;
+    let template_readme = include_str!("../templates/README.md.in");
+    let readme_template = readme::get_readme(project_dir, template_readme)?;
     make_default_files(project_dir, FileTypes::ReadMe(&readme_template) )?;
 
-    make_default_files(project_dir, FileTypes::UnitTestExample(cpp::EXAMPLE_TEST) )?;
+    make_default_files(project_dir, FileTypes::UnitTestExample )?;
     make_default_files(project_dir, FileTypes::CmakeTest )?;
 
     Ok(())
@@ -56,17 +57,20 @@ fn make_default_files(project_dir: &str, filetype: FileTypes  ) -> std::io::Resu
         }
         FileTypes::CmakeTest => {
             let mut file = File::create(project_dir.to_owned() + "/tests/CMakeLists.txt")?;
-            let template = include_str!("../templates/CMakeGTest.make.in");
+            let template = include_str!("../templates/test/CMakeGTest.make.in");
             file.write_all(template.as_bytes())?;        
             //file.write_all(value.as_bytes())?;        
         }
-        FileTypes::UnitTestExample(value) => {
+        
+        FileTypes::UnitTestExample => {
             let mut file = File::create(project_dir.to_owned() + "/tests/example_test.cpp")?;
-            file.write_all(value.as_bytes())?;        
+            let template = include_str!("../templates/test/example_test.cpp.in");
+            file.write_all(template.as_bytes())?;        
         }
-        FileTypes::GitIgnore(value) => {
+        FileTypes::GitIgnore => {
             let mut file = File::create(project_dir.to_owned() + "/.gitignore")?;
-            file.write_all(value.as_bytes())?;        
+            let template = include_str!("../templates/gitignore.in");
+            file.write_all(template.as_bytes())?;        
         }
         FileTypes::ReadMe(value) => {
             let mut file = File::create(project_dir.to_owned() + "/README.md")?;
@@ -83,8 +87,8 @@ pub enum FileTypes<'a>{
     Header,
     Cmake(&'a str),
     CmakeTest,
-    GitIgnore(&'a str),
-    UnitTestExample(&'a str),
+    GitIgnore,
+    UnitTestExample,
     ReadMe(&'a str),
 }
 

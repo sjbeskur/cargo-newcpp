@@ -11,6 +11,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let scaffold = CPPProjectScafolding::new(args.project_name);
     scaffold.generate_project_scafolding()?;
-
+    
     Ok(())
 }

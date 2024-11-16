@@ -1,5 +1,5 @@
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)  #J3.16
 
 # Set your project name here
 project( {{project_name}} VERSION 0.1.0)
