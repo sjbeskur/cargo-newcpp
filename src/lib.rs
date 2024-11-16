@@ -3,7 +3,6 @@ use std::fs::File;
 use std::io::prelude::*;
 
 mod cpp_scafolding;
-mod gitignore;
 mod cmake;
 mod readme;
 pub mod command_helper;

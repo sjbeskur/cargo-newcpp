@@ -8,8 +8,10 @@ type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 
  impl CPPProjectScafolding{
 
-    pub fn new(project_name: String) -> CPPProjectScafolding{
-        Self{project_name}
+    pub fn new(project_name: &str) -> CPPProjectScafolding{
+        Self{
+            project_name: String::from(project_name)
+        }
     }
 
     pub fn generate_project_scafolding(&self) -> Result<()>  {
