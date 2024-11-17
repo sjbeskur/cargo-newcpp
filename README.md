@@ -21,7 +21,7 @@ sudo apt install gcc, g++, ninja-build, build-essential, cmake
 
 Create a new CPP project with the following command.   
 ```console,ignore
-cargo newcpp <your_project_name>
+cargo newcpp <your_project_name> [--lib]
 ```
 
 This will output to the following default project scaffolding.
