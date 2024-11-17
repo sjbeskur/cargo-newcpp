@@ -1,9 +1,10 @@
 use handlebars::Handlebars;
 use std::collections::BTreeMap;
 
-pub fn get_readme(project_name: &str) -> Result<String, Box<dyn std::error::Error>>{
+pub fn get_readme(project_name: &str, template: &str) -> Result<String, Box<dyn std::error::Error>>{
     let mut handlebars = Handlebars::new();
-    handlebars.register_template_string("readme_template", DEFAULT_README)?;
+
+    handlebars.register_template_string("readme_template", template)?;
 
     let mut data = BTreeMap::new();
     data.insert("project_name".to_string(), project_name.to_string());
@@ -12,18 +13,4 @@ pub fn get_readme(project_name: &str) -> Result<String, Box<dyn std::error::Erro
 }
 
 
-pub const DEFAULT_README: &str = r#"
-
-# {{project_name}} 
-
-## TL;DR
-
-## Prerequisites
-
-## Configuration
-
-## Build Instructions
-
-## Build Instructions
-"#;
 

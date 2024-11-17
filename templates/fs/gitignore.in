@@ -1,0 +1,12 @@
+# Build Directories (this should cover most artifacts you don't want to source control)
+build/** 
+target/** 
+
+# Backup files
+*~
+
+# Temporary files
+*.swp
+*.swo
+*.bak
+
