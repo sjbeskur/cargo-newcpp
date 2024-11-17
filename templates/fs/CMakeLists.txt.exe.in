@@ -20,7 +20,6 @@ set(HEADERS
 
 # Create an executable target from the source files
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
-
 # Set the include directories (replace "include" with your actual include path)
 target_include_directories(${PROJECT_NAME} PUBLIC
     include
@@ -28,7 +27,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 # Set any additional compiler flags if needed
 # For example:
-# target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra)
 
 # If you have any external libraries to link against, use the following format:
 # find_package(YourLibrary REQUIRED)

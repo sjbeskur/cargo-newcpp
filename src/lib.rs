@@ -15,16 +15,26 @@ pub fn make_project_dir(project_dir: &str) -> std::io::Result<()> {
     Ok(())
 }
 
-pub fn make_defaults(project_dir: &str) -> Result<(),Box<dyn Error>> {
+pub fn make_defaults(project_dir: &str, is_library: bool) -> Result<(),Box<dyn Error>> {
 
-    make_default_files(project_dir, FileTypes::Main )?;
+    if is_library{
+        make_default_files(project_dir, FileTypes::Library )?;
+
+        let lib_template = include_str!("../templates/fs/CMakeLists.txt.lib.in");
+        let cmake_template = cmake::get_cmake(project_dir, lib_template)?;
+        make_default_files(project_dir, FileTypes::Cmake(&cmake_template) )?;
+    
+    }else{
+        make_default_files(project_dir, FileTypes::Main )?;
+    
+        let exe_template = include_str!("../templates/fs/CMakeLists.txt.exe.in");
+        let cmake_template = cmake::get_cmake(project_dir, exe_template)?;
+        make_default_files(project_dir, FileTypes::Cmake(&cmake_template) )?;
+    }
+
     make_default_files(project_dir, FileTypes::Header )?;
     make_default_files(project_dir, FileTypes::GitIgnore)?;
     
-    let exe_template = include_str!("../templates/fs/CMakeLists_exe.in");
-    let cmake_template = cmake::get_cmake(project_dir, exe_template)?;
-    make_default_files(project_dir, FileTypes::Cmake(&cmake_template) )?;
-
     let template_readme = include_str!("../templates/fs/README.md.in");
     let readme_template = readme::get_readme(project_dir, template_readme)?;
     make_default_files(project_dir, FileTypes::ReadMe(&readme_template) )?;
@@ -43,6 +53,13 @@ fn make_default_files(project_dir: &str, filetype: FileTypes  ) -> std::io::Resu
             file.write_all(template.as_bytes())?;
         
         }
+
+        FileTypes::Library => {            
+            let mut file = File::create(project_dir.to_owned() + "/src/mylibrary.cpp")?;
+            let template = include_str!("../templates/fs/src/mylibrary.cpp.in");
+            file.write_all(template.as_bytes())?;
+        
+        }        
         FileTypes::Header => {
             let mut file = File::create(project_dir.to_owned() + "/include/dummy.hpp")?;
             let template = include_str!("../templates/fs/include/dummy.hpp.in");
@@ -83,6 +100,7 @@ fn make_default_files(project_dir: &str, filetype: FileTypes  ) -> std::io::Resu
 
 pub enum FileTypes<'a>{
     Main,
+    Library,
     Header,
     Cmake(&'a str),
     CmakeTest,

@@ -1,18 +1,19 @@
 use std::process::Command;
 
 use cargo_newcpp::*;
+use cli::ProjectType;
 use color_print::*;
 mod cli;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    //let mut args = std::env::args().collect::<Vec<String>>();
-    //if args.len() < 2{ return; }    
-    //args.drain(0..2);
 
     let args = cli::parse_args();
+    let islib = args.project_type == ProjectType::Lib;
 
-    cprintln!("   <green,bold>Creating</green,bold> binary C++ (application) `{}` package", &args.project_name);
-    let scaffold = CPPProjectScafolding::new(&args.project_name);
+    let proj = if islib {"library"} else{"application"};
+
+    cprintln!("   <green,bold>Creating</green,bold> binary C++ ({}) `{}` package", proj, &args.project_name);
+    let scaffold = CPPProjectScafolding::new(&args.project_name, islib);
     scaffold.generate_project_scafolding()?;
     run_git_init(&args.project_name);
 
