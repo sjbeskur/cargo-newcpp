@@ -1,10 +1,14 @@
 use std::process::Command;
+use std::path::Path;
 
 use cargo_newcpp::command_helper::dump_command;
 
 fn main() {
-
-    run_ctest("target/");
+    let target_dir = "target/debug";
+    if Path::new(target_dir).exists(){
+        run_ctest("target/debug");
+    }
+    color_print::ceprint!(" Path does not exist: {}", target_dir);
 }
 
 
