@@ -14,9 +14,6 @@ If you'd like to kick the tires on the build feature (cargo buildcpp) you will w
 sudo apt install gcc, g++, ninja-build, build-essential, cmake
 ```
 
-
-
-
 ## Create a new project
 
 Create a new CPP project with the following command.   
