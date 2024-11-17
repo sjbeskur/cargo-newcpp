@@ -1,0 +1,4 @@
+
+cargo login <username>
+
+cargo publish

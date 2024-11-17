@@ -9,13 +9,14 @@ license = "Apache-2.0 OR MIT"
 name = "cargo-newcpp"
 readme = "README.md"
 repository = "https://github.com/sjbeskur/cargo-newcpp"
-version = "0.5.45"
+version = "0.6.3"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 clap = { version = "4.4", features = ["derive"] }
+color-print = "0.3.7"
 handlebars = "6.2.0"
 
 [[bin]]
