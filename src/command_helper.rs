@@ -23,3 +23,29 @@ pub fn dump_command(cmd: &mut Command){
         println!("Command failed with exit code: {:?}", status.code());
     }
 }
+
+pub fn run_command(cmd: &mut Command){
+
+    cmd.stdout(Stdio::piped());  
+    cmd.stderr(Stdio::piped());  
+    let mut child = cmd.spawn().unwrap();  
+    // let stdout = child.stdout.take().expect("Failed to get stdout");
+    // let sterr = child.stderr.take().expect("Failed to get stderr");
+
+    // Wait for the command to finish and check if it was successful
+    let status = child.wait().unwrap();
+    if !status.success() {
+        println!("Command failed with exit code: {:?}", status.code());
+    }
+}
+
+/*
+    Ok(_) => println!("Was spawned :)"),
+    Err(e) => {
+        if let NotFound = e.kind() {
+            println!("`rustc` was not found! Check your PATH!")
+        } else {
+            println!("Some strange error occurred :(");
+        }
+    }, 
+*/
