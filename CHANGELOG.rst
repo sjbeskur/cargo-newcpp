@@ -2,7 +2,15 @@
 Changelog
 =========
 
-Version 0.6.x
+Version 0.6.12
+===========
+- Feature: Initialize project created with newcpp project with ```git init``` upon creation
+- Better cli argument parsing and better "hand testing" using symlinks.  Cargo will automatically detected the binaries with cargo- prefix if it is in your $PATH
+  ```ln -s $(pwd)/target/debug/cargo-gtest ~/.local/bin/```
+- Known Issues:  ```cargo gtest`` will only work when debug target is built  (i.e. build tree is in target/debug )
+
+
+Version 0.6.3
 ===========
 - REFACTOR: remove hardcoded strings in to codebase in favor of templates loaded by ```include_str!() `` macro
 - Damn I ❤️ Rust ^^^

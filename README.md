@@ -6,27 +6,30 @@ This tool extends [Cargo](http://doc.crates.io/) to allow for the creation of ne
 cargo install cargo-newcpp
 ```
 
-Ensure that you have a fairly recent version of rust/cargo installed. On Ubuntu you might also want to install `cmake` and `gcc` or `g++` so that you can actually build project.
+## Required Prereqs 
+Ensure that you have a fairly recent version of Rust/Cargo installed. 
 
-## Recommended prereqs 
-If you'd like to kick the tires on the build feature (cargo buildcpp) you will want the following installed
+In order to build projects using ```cargo buildcpp``` you will also want to install recent versions of standard C++ build tools:
+
 ```console,ignore
 sudo apt install gcc, g++, ninja-build, build-essential, cmake
 ```
 
 ## Create a new project
-
-Create a new CPP project with the following command.   
+To create a new C++ project:
 ```console,ignore
 cargo newcpp <your_project_name> [--lib]
 ```
 
-This will output to the following default project scaffolding.
+This will output to the following default project scaffolding under the <project_name> folder.
 
 ![scaffolding](assets/project-files.png)
 
+If you have ```git``` installed this will also initialize your new project as a git repo.
+
+
 ## Building the CPP project with cargo
-Once you've create the project, you can use the following example to build the project.
+Once you've created the project, you can build it using the command below:
 ```console,ignore
 cd <your_project_name> 
 cargo buildcpp [--debug | --release]
