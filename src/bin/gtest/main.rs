@@ -2,13 +2,23 @@ use std::process::Command;
 use std::path::Path;
 
 use cargo_newcpp::command_helper::dump_command;
+use cli::BuildContext;
+mod cli;
 
 fn main() {
-    let target_dir = "target/debug";
-    if Path::new(target_dir).exists(){
-        run_ctest("target/debug");
+
+    println!("gtest...");
+    let cfg = cli::parse_args();
+
+    let path = match cfg.context{
+        BuildContext::Debug(d) => d,
+        BuildContext::Release(r) => r,
+    };
+    
+    if Path::new(path).exists(){
+        run_ctest(path);
     }
-    color_print::ceprint!(" Path does not exist: {}", target_dir);
+    color_print::ceprint!(" Path does not exist: {}", path);
 }
 
 

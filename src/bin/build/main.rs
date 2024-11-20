@@ -2,22 +2,21 @@ use std::path::Path;
 use std::process::Command;
 
 use cargo_newcpp::command_helper::dump_command;
+use cli::BuildContext;
 mod cli;
 
 fn main() {
 
-    let is_release = cli::parse_args();
-
-    let build_type =  match is_release{
-        true => "Release",
-        _ => "Debug",
+    let cfg = cli::parse_args();
+    let (target_dir, build_type) = match cfg.context{
+        BuildContext::Debug(d) => (d, "Debug"),
+        BuildContext::Release(r) => (r,"Release"),
     };
 
     if !Path::new("./CMakeLists.txt").exists(){
         let curr_dir = std::env::current_dir().unwrap().to_string_lossy().to_string();
         println!("error: could not find `CMakeLists.txt` in `{}/CMakeLists.txt` or any parent directory",curr_dir);        
     }
-    let target_dir = format!("target/{build_type}/").to_lowercase();
     run_cmake(&target_dir, build_type);
     run_ninja(&target_dir);
 }
