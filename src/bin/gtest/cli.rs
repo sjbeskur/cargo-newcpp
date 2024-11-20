@@ -1,57 +1,51 @@
-use clap::{Parser, Subcommand};
-
-// #[derive(Parser)]
-// #[command(author, version, about, long_about = None)]
-// #[command(propagate_version = true)]
-// struct Cli {
-//     #[command(subcommand)]
-//     command: Option<Commands>,
-// }
-
+use clap::{Parser, ArgGroup};
 
 #[derive(Parser, Debug)]
-#[command(bin_name = "cargo gtest", about = "A basic Cargo plugin example.")]
+#[command(bin_name = "cargo gtest", author, version, about = "A basic Cargo plugin example.", long_about = None)]
+#[command(group(
+    ArgGroup::new("mode")
+        .args(&["release", "debug"])
+        .required(false) // Set to true if you want one of them to be mandatory
+))]
 pub struct Cli {
-    // #[command(subcommand)]
-    // command: Option<Command>,
 
     #[arg(long, conflicts_with = "debug", default_value_t=false)]
     pub release: bool,
 
-    #[arg(long, conflicts_with = "release",  default_value_t=true)]
+    #[arg(long, conflicts_with = "release",  default_value_t=false)]
     pub debug: bool,
 
 }
 
 
-/// A simple Cargo plugin example
-// #[derive(Parser, Debug)]
-// #[command(bin_name = "cargo gtest", about = "A basic Cargo plugin example.")]
-// struct Cli {
-//     /// A greeting to display
-//     #[arg(short, long, default_value = "Hello")]
-//     greeting: String,
+pub enum BuildContext<'a>{
+    Debug(&'a str),
+    Release(&'a str),
+}
 
-//     /// Names to greet
-//     #[arg()]
-//     names: Vec<String>,
-// }
+pub struct Config<'a>{
+    pub context: BuildContext<'a>,
+}
 
-
-    pub fn parse_args() -> bool {
-        let args: Vec<String> = std::env::args().skip(1).collect();        
-        let cli = Cli::parse_from(args);
-
-        // // Print the greeting for each name
-        // for name in cli.names {
-        //     println!("{} {}!", cli.greeting, name);
-        // }
-        if cli.debug{
-            println!("testing debug");
-        }
-        if cli.release{
-            println!("testing release");
-        }
-        cli.debug
-
+impl Config<'static>{
+    pub fn new(is_release: bool) -> Config<'static>{
+        let context = match is_release{
+            true => BuildContext::Release("target/release"),
+            false  => BuildContext::Debug("target/debug"),
+        };
+        Self{ context }
     }
+}    
+
+// ln -s $(pwd)/target/debug/cargo-gtest ~/.local/bin/
+pub fn parse_args() -> Config<'static> {
+    let args: Vec<String> = std::env::args().skip(1).collect();        
+    let cli = Cli::parse_from(args);
+    if cli.release && cli.debug {
+        eprintln!("Error: Only one of --release or --debug can be set.");
+        std::process::exit(1);
+    }
+    let is_release = cli.release;
+
+    Config::new(is_release)
+}

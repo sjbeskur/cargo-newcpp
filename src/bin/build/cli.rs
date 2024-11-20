@@ -1,52 +1,51 @@
-//use clap::Parser;
+use clap::{Parser, ArgGroup};
 
-/// CLI structure with clap for parsing arguments.
-// #[derive(Parser, Debug)]
-// #[clap(author, version, about)]
-// //#[command(author, version, about, long_about = None)]
-// pub struct Cli {
-//     // Optionally specify the build type (Release or Debug).
-//     //#[arg(short, long)]
-//     #[clap(long, conflicts_with = "debug", default_value_t=false)]
-//     pub release: bool,
+#[derive(Parser, Debug)]
+#[command(bin_name = "cargo gtest", author, version, about = "A basic Cargo plugin example.", long_about = None)]
+#[command(group(
+    ArgGroup::new("mode")
+        .args(&["release", "debug"])
+        .required(false) // Set to true if you want one of them to be mandatory
+))]
+pub struct Cli {
 
-//     #[clap(long, conflicts_with = "release",  default_value_t=true)]
-//     pub debug: bool,
+    #[arg(long, conflicts_with = "debug", default_value_t=false)]
+    pub release: bool,
 
-// }
+    #[arg(long, conflicts_with = "release",  default_value_t=false)]
+    pub debug: bool,
+
+}
 
 
-pub fn parse_args() -> bool {
-    // // Parse CLI arguments.
-    // let args = Cli::parse();
+pub enum BuildContext<'a>{
+    Debug(&'a str),
+    Release(&'a str),
+}
 
-    // // Output the configuration.
-    // println!("{:#?}", args);
-    // args
+pub struct Config<'a>{
+    pub context: BuildContext<'a>,
+}
 
-    let args: Vec<String> = std::env::args().collect();
-    // println!("... args.0 = {}", args[0]);
-    // println!("... args.1 = {}", args[1]);
-    // println!("... args.2 = {}", args[2]);
-    // println!("... args.len() = {}", args.len());
+impl Config<'static>{
+    pub fn new(is_release: bool) -> Config<'static>{
+        let context = match is_release{
+            true => BuildContext::Release("target/release"),
+            false  => BuildContext::Debug("target/debug"),
+        };
+        Self{ context }
+    }
+}    
 
-    if args.len() < 2 || args.len() > 3{
-        println!("Invalid args.\n\tUsage: cargo buildcpp [--debug ] | [--release]");
+// ln -s $(pwd)/target/debug/cargo-gtest ~/.local/bin/
+pub fn parse_args() -> Config<'static> {
+    let args: Vec<String> = std::env::args().skip(1).collect();        
+    let cli = Cli::parse_from(args);
+    if cli.release && cli.debug {
+        eprintln!("Error: Only one of --release or --debug can be set.");
         std::process::exit(1);
     }
+    let is_release = cli.release;
 
-    let mut release = false;
-    if args.len() == 3{
-        match args[2].as_str(){
-            "--release" =>  { release = true; }
-            "--debug" => { release = false; }    
-            _ => {
-                println!("Invalid args.\n\tUsage: cargo buildcpp [--debug ] | [--release]");
-                std::process::exit(1);
-            }     
-        }
-    }
-
-    release
-    
+    Config::new(is_release)
 }
