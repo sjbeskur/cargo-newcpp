@@ -7,8 +7,10 @@ message("Fetching Google Test")
 include(FetchContent)
 FetchContent_Declare(
     googletest
-    URL https://github.com/google/googletest/archive/refs/heads/master.zip # URL to Google Test repository
-    # DOWNLOAD_EXTRACT_TIMESTAMP TRUE  # The warning is related to a new policy introduced in CMake 3.28, CMP0135, 
+    GIT_REPOSITORY https://github.com/google/googletest
+    GIT_TAG v1.15.2 # latest stable tagged version
+    GIT_SHALLOW TRUE
+    GIT_PROGRESS TRUE
 )
 FetchContent_MakeAvailable(googletest)
 

@@ -13,7 +13,7 @@ FetchContent_Declare(
 # you should put this code in a add_subdirectory to avoid to change
 # BUILD_TESTING for your own project too since variables are directory
 # scoped
-set(BUILD_TESTING OFF)
+# set(BUILD_TESTING OFF) # need to figure out
 set(EIGEN_BUILD_TESTING OFF)
 set(EIGEN_MPL2_ONLY ON)
 set(EIGEN_BUILD_PKGCONFIG OFF)
