@@ -30,8 +30,8 @@ pub struct Config<'a>{
 impl Config<'static>{
     pub fn new(is_release: bool) -> Config<'static>{
         let context = match is_release{
-            true => BuildContext::Release("target/release"),
-            false  => BuildContext::Debug("target/debug"),
+            true => BuildContext::Release("./target/release"),
+            false  => BuildContext::Debug("./target/debug"),
         };
         Self{ context }
     }
