@@ -29,6 +29,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 # Include eigen.cmake
 # include(eigen)
+# include(json)
 # include(fftw)
 # include(opencv)
 # include(spdlog)

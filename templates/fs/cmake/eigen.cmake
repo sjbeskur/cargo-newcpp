@@ -1,13 +1,22 @@
 message(CHECK_START "Fetching Eigen3")
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 
-include(FetchContent)
-FetchContent_Declare(
-  Eigen
-  GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
-  GIT_TAG master
-  GIT_SHALLOW TRUE
-  GIT_PROGRESS TRUE)
+find_package(Eigen QUIET)
+   
+if (NOT Eigen_FOUND)
+  message(STATUS "Eigen not found, attempting to fetch using FetchContent.")
+
+  include(FetchContent)
+    FetchContent_Declare(
+      Eigen
+      GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
+      #GIT_TAG master
+      GIT_TAG        3.4.0  # Or whatever Eigen version you want to use
+      GIT_SHALLOW TRUE
+      GIT_PROGRESS TRUE)
+
+endif()
+
 
 # note: To disable eigen tests,
 # you should put this code in a add_subdirectory to avoid to change
