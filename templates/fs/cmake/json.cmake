@@ -16,4 +16,4 @@ if (NOT nlohmann_json_FOUND)
 endif()
 
 # Link nlohmann_json to your target
-#target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json)
+target_link_libraries(${PROJECT_NAME} PUBLIC nlohmann_json::nlohmann_json)

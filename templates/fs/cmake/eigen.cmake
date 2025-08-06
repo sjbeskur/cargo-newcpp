@@ -32,4 +32,4 @@ FetchContent_MakeAvailable(Eigen)
 list(POP_BACK CMAKE_MESSAGE_INDENT)
 message(CHECK_PASS "fetched")
 
-target_link_libraries(YourTarget PRIVATE Eigen3::Eigen)
+target_link_libraries(${PROJECT_NAME} PRIVATE Eigen3::Eigen)

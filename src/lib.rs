@@ -42,6 +42,9 @@ pub fn make_defaults(project_dir: &str, is_library: bool) -> Result<(),Box<dyn E
     make_default_files(project_dir, FileTypes::UnitTestExample )?;
     make_default_files(project_dir, FileTypes::CmakeTest )?;
 
+    make_default_files(project_dir, FileTypes::CmakeModule )?;
+
+
     Ok(())
 }
 
@@ -91,6 +94,27 @@ fn make_default_files(project_dir: &str, filetype: FileTypes  ) -> std::io::Resu
         FileTypes::ReadMe(value) => {
             let mut file = File::create(project_dir.to_owned() + "/README.md")?;
             file.write_all(value.as_bytes())?;        
+        },
+        FileTypes::CmakeModule => {
+            let files = vec![
+                "cmake/eigen.cmake",
+                "cmake/fftw.cmake",
+                "cmake/json.cmake",
+                "cmake/gtest.cmake",
+                "cmake/opencv.cmake",
+            ];
+            let templates = vec![
+                include_str!("../templates/fs/cmake/eigen.cmake"),
+                include_str!("../templates/fs/cmake/fftw.cmake"),  
+                include_str!("../templates/fs/cmake/json.cmake"),
+                include_str!("../templates/fs/cmake/gtest.cmake"),
+                include_str!("../templates/fs/cmake/opencv.cmake"),
+            ];
+
+            files.iter().zip(templates.iter()).for_each(|(file, template)| {
+                let mut file = File::create(project_dir.to_owned() + "/" + file).expect(&format!("Failed to create file: {:?}", file));
+                file.write_all(template.as_bytes()).expect(&format!("Failed to write to file: {:?}", file));
+            });
         }
         
     }
@@ -103,6 +127,7 @@ pub enum FileTypes<'a>{
     Library,
     Header,
     Cmake(&'a str),
+    CmakeModule,
     CmakeTest,
     GitIgnore,
     UnitTestExample,
