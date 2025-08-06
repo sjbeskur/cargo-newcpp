@@ -2,6 +2,15 @@
 Changelog
 =========
 
+Version 0.7.1
+===========
+- Updated to 2024 edition
+- Updated dependencies
+- cmake module templates for Eigen3, nlohmann/json
+- Feature: Add support for `cargo gtest` command to run Google Test tests
+- Feature: Add support for `cargo cleancpp` command to clean up build artifacts
+
+
 Version 0.6.12
 ===========
 - Feature: Initialize project created with newcpp project with ```git init``` upon creation

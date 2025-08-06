@@ -7,7 +7,7 @@ mod cli;
 
 fn main() {
 
-    println!("gtest...");
+    println!("Running GoogleTest units with cargo-gtest: ");
     let cfg = cli::parse_args();
 
     let path = match cfg.context{
@@ -15,10 +15,12 @@ fn main() {
         BuildContext::Release(r) => r,
     };
     
-    if Path::new(path).exists(){
-        run_ctest(path);
+    let test_path = Path::new(path).join("tests");
+    if test_path.exists(){
+        run_ctest(test_path.as_os_str().to_str().unwrap());
+    }else{
+        color_print::ceprint!(" Path does not exist: {:?}", test_path);
     }
-    color_print::ceprint!(" Path does not exist: {}", path);
 }
 
 
